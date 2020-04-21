@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sprite Animation 2</title>
+	</head>
+	<body style="margin-top:5; margin-right:5; margin-bottom:5; margin-left:5;">
+		<center>
+			<canvas id='canvas' style="border:1px solid black; background-image: url(bg_1.jpg)"></canvas><br>
+			<button onclick='moveLeft()' style="border-style:none;
+				border-radius:2px;
+				height:40px;
+				width:220px;
+				color:white;
+				font-size:20px;
+				background-color:salmon;" >Left
+			</button>
+			<button onclick='moveRight()' style="border-style:none;
+				border-radius:2px;
+				height:40px;
+				width:220px;
+				color:white;
+				font-size:20px;
+				background-color:salmon;">Right
+			</button>
+		</center>
+		<script>
+		    var character = new Image(); 
+			character.src = "1.png";
+			
+			var canvas = document.getElementById('canvas');
+			var ctx = canvas.getContext("2d");
+			var canvasWidth =(window.innerWidth)-15;
+			var canvasHeight =450;
+			canvas.width = canvasWidth;
+			canvas.height = canvasHeight; 
+			 
+			var spriteWidth = 864; 
+			var spriteHeight = 280; 
+			 
+			var rows = 2; 
+			var cols = 8; 
+			 
+			var width = spriteWidth/cols; 
+			var height = spriteHeight/rows; 
+			 
+			var counter = 0; 
+			var frameCount =8; 
+			 
+			var x=0;
+			var y=250; 
+			 
+			var srcX; 
+			var srcY; 
+			
+			var trackRight = 0; 
+			var trackLeft = 1; 
+			var left = false; 
+			var right = true;
+			 
+			var speed =12; 
+		 
+			
+			 
+			function updateFrame()
+			{
+				srcX = counter * width; 
+				counter = ++counter % frameCount; 
+				ctx.clearRect(x,y,width,height); 
+				 
+				if((left && x>0) || (right && x>=canvasWidth-width))
+				{
+					srcY = trackLeft * height; 
+					x-=speed; 
+					moveLeft();
+				}
+				if(right && x<canvasWidth-(width)||left && x==0)
+				{
+					srcY = trackRight * height; 
+					x+=speed; 
+					moveRight();
+				}
+			}				 
+			function draw()
+			{
+				updateFrame();
+				ctx.drawImage(character,srcX,srcY,width,height,x,y,width,height);
+			}		 
+			function moveLeft()
+			{
+				left = true; 
+				right = false; 
+			}
+			 
+			function moveRight()
+			{
+				left = false;
+				right = true; 
+			}
+			 
+			setInterval(draw,80);
+		</script>
+	</body>
+</html>

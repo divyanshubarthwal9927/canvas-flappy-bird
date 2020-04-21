@@ -1,0 +1,61 @@
+<!doctype Html>
+<html>
+    <head>
+        <title> Sprite animation 1 </title>
+    </head>
+    <body>
+        <canvas id='canvas' style="border:1px solid black;">
+		</canvas>
+        <script>
+            var can= document.getElementById('canvas');
+            if (can.getContext)
+			{
+                var ctx= can.getContext('2d');
+				can.width=250;
+                can.height=300;
+				var character= new Image();
+				character.src="12.png";
+				var spritewidth=240;
+				var spriteheight=384;
+				var rows=4;
+				var cols=4;
+				var width=spritewidth/cols;
+				var height=spriteheight/rows;
+				var x=0;
+				var y=0;
+				var srcx=0;
+				var srcy=0;
+				//for specifying dimension on screen
+				
+				var imagewidth=can.width;
+				var imageheight=can.height;
+				var counter=0;
+				var framecount=5;
+				var currentrow =0;
+				
+				function updateframe(){
+				srcx= counter*width;
+				srcy =currentrow * height;
+				counter=++counter%framecount;	
+                
+				if (counter==(framecount-1))
+				currentrow=(currentrow + 1)%rows;				
+				}
+				 
+				function draw(){
+				if (counter!=(framecount-1))
+				{
+				ctx.clearRect(x,y,imagewidth,imageheight);
+				}
+				updateframe();
+				ctx.drawImage(character,srcx,srcy,width,height,x,y,imagewidth,imageheight);
+				
+				}
+				
+				setInterval(draw,50);
+				//window.requestAnimationFrame(draw);
+			}	
+		</script>
+
+    </body>
+</html>
